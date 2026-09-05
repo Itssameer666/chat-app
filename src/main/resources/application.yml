@@ -1,0 +1,42 @@
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: always
+
+spring:
+  application:
+    name: chat-app-backend
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:${DB_URL:jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:chat_db}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}}
+    username: ${SPRING_DATASOURCE_USERNAME:${DB_USER:root}}
+    password: ${SPRING_DATASOURCE_PASSWORD:${DB_PASSWORD:sameer@1234}}
+    driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+# Custom Application & JWT Properties
+application:
+  jwt:
+    # 256-bit base64/hex secret key for HMAC-SHA256
+    secret-key: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+    # 24 hours in milliseconds (86,400,000 ms)
+    expiration: ${JWT_EXPIRATION:86400000}
+    # 7 days in milliseconds for refresh token
+    refresh-token:
+      expiration: 604800000
+
+# CORS Configuration
+cors:
+  allowed-origins:
+    - "http://localhost:3000"
+    - "http://localhost:5173"
+    - "http://localhost:4200"
+    - "http://127.0.0.1:5500"
